@@ -1,4 +1,6 @@
 # Delta-Downscaling-to-single-mutiple-locations
+The `delta.exe` in the `dist` directory is packaged based on `delta.py`.
+
 This Python script is designed for downscaling climate model precipitation data to a finer resolution based on historical observations.
 # 1. Calculate Monthly Mean for Observed and Climate Model Data
 
