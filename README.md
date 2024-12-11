@@ -44,7 +44,7 @@ For each month, the climate model precipitation data (ds_pr_gcm) is extracted, a
 The downscaled precipitation data for each month is stored in the result list.
 
 # 4. Software
-The .exe file are attached to the release
+The .exe file are attached to the release v1.0.0
 
 # 5. Data requist
 (1) Historical climate data (GCMs,nc)
