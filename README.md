@@ -4,9 +4,9 @@ The `delta.exe` in the `dist` directory is packaged based on `delta.py`.
 This Python script is designed for downscaling climate model precipitation data to a finer resolution based on historical observations.
 # 1. Calculate Monthly Mean for Observed and Climate Model Data
 
-ds_pr_obs_monthlymean = ds_pr_obs.resample(time="1M").mean().pre  # Calculate monthly mean for observed data
+ds_pr_obs_monthlymean = ds_pr_obs.resample(time="1M").mean().pre  
 
-ds_pr_gcm = ds_pr_gcm.pr * 86400  # Convert climate model precipitation data from "mm/day" to standard "mm/day"
+ds_pr_gcm = ds_pr_gcm.pr * 86400  
 
 ds_pr_gcm_monthlymean = ds_pr_gcm.resample(time="MS").mean()
 
@@ -20,7 +20,7 @@ The third line uses "Month Start" (MS) resampling to compute the monthly mean fo
 # 2.Calculate Precipitation Deviation (GCM/Obs)
 delta_pr = ds_pr_gcm_monthlymean.groupby('time.month').mean() / ds_pr_obs_monthlymean.groupby('time.month').mean()
 
-delta_pr = delta_pr.values.squeeze()  # Calculate deviation and convert to a 1D array
+delta_pr = delta_pr.values.squeeze()  
 
 **Description:**
 This part calculates the monthly precipitation deviation (ratio of GCM to Observed data) by dividing the monthly means of the climate model by those of the observed data. 
@@ -28,17 +28,29 @@ The result (delta_pr) is then converted to a 1D array for easier use in the down
 
 
 # 3. Downscale the Climate Model Data
-result = []  # List to store processed monthly precipitation data
+result = []
 
-for i in range(1, 13):  # Loop over each month
+for i in range(1, 13): 
 
-tmp_pr = ds_pr_gcm.sel(time=ds_pr_gcm.time.dt.month == i)  # Extract data for the current month
+tmp_pr = ds_pr_gcm.sel(time=ds_pr_gcm.time.dt.month == i) 
 
-gcm_pr_downscaled = tmp_pr * delta_pr[i - 1]  # Adjust the climate model data according to the deviation
+gcm_pr_downscaled = tmp_pr * delta_pr[i - 1]  
 
-result.append(gcm_pr_downscaled)  # Store the data for the current month in the result list
+result.append(gcm_pr_downscaled) 
 
 **Description:**
 A loop runs over all 12 months of the year.
 For each month, the climate model precipitation data (ds_pr_gcm) is extracted, and the monthly precipitation is adjusted by multiplying it with the corresponding deviation (delta_pr).
 The downscaled precipitation data for each month is stored in the result list.
+
+# 4. Software
+The .exe file are attached to the release
+
+# 5. Data requist
+(1) Historical climate data (GCMs,nc)
+
+(2) Projected climate data (GCMs,nc)
+
+(3) Observed data (nc)
+
+(4) Locations with latitude and longitute(csv)
